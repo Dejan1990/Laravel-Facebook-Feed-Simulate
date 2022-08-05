@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('post_comments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->timestamp('verified_at')->nullable();
-            $table->rememberToken();
+            $table->foreignId('post_id');
+            $table->foreignId('user_id');
+            $table->text('comment_text');
+            $table->unsignedBigInteger('parent_comment_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('parent_comment_id')->references('id')->on('post_comments');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('post_comments');
     }
 };

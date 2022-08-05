@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->timestamp('verified_at')->nullable();
-            $table->rememberToken();
+            $table->foreignId('user_id');
+            $table->text('post_text')->nullable();
+            $table->string('link_url')->nullable();
+            $table->string('link_text')->nullable();
+            $table->foreignId('post_id')->nullable()->references('id')->on('posts');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('posts');
     }
 };
